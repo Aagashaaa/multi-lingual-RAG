@@ -7,33 +7,52 @@
 
 from src.ingestion.loader import load_document
 from src.ingestion.text_cleaner import clean_document
+from src.chunking.text_chunker import chunk_document
 
 
 def main():
     file_path = "data/raw/leave_policy.txt"
 
-    # Load document
+    # Step 1: Load document
     documents = load_document(file_path)
+
+    print("===== LOADED DOCUMENT =====\n")
 
     for document in documents:
         print(document.text)
 
-    # Clean document
+    # Step 2: Clean document
     cleaned_documents = [
         clean_document(document)
         for document in documents
     ]
 
-    print("\n\n CLEANED DOCUMENT \n")
-    
+    print("\n===== CLEANED DOCUMENT =====\n")
+
     for document in cleaned_documents:
         print(document.text)
 
-        print("\nMetadata:")
-        print("Source:", document.source)
-        print("File type:", document.file_type)
-        print("Page:", document.page_number)
-        print("Language:", document.language)
+    # Step 3: Chunk document
+    chunks = []
+
+    for document in cleaned_documents:
+        document_chunks = chunk_document(
+            document,
+            chunk_size=100,
+            overlap=20,
+        )
+
+        chunks.extend(document_chunks)
+
+    print("\n===== CHUNKS =====\n")
+
+    for chunk in chunks:
+        print(f"Chunk ID: {chunk.chunk_id}")
+        print(f"Source: {chunk.source}")
+        print(f"Text: {chunk.text}")
+        print("-" * 60)
+
+    print(f"\nTotal chunks: {len(chunks)}")
 
 
 if __name__ == "__main__":
