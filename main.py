@@ -4,49 +4,73 @@ from src.ingestion.text_cleaner import clean_document
 from src.chunking.text_chunker import chunk_document
 from src.embeddings.embedder import MultilingualEmbedder
 from src.retrieval.vector_store import VectorStore
+from src.retrieval.hybrid_retriever import HybridRetriever
+from src.reranking.reranker import Reranker
 
 
 def main():
     file_path = "data/raw/leave_policy.txt"
 
-    # Step 1: Load documents
+    # 1. Load and clean documents
     documents = load_document(file_path)
-
-    # Step 2: Clean documents
     cleaned_documents = [
         clean_document(document)
         for document in documents
     ]
 
-    # Step 3: Split documents into chunks
+    # 2. Chunk documents
     chunks = []
 
     for document in cleaned_documents:
-        document_chunks = chunk_document(
-            document,
-            chunk_size=100,
-            overlap=20,
+        chunks.extend(
+            chunk_document(
+                document,
+                chunk_size=100,
+                overlap=20,
+            )
         )
-        chunks.extend(document_chunks)
 
     print(f"Total chunks: {len(chunks)}")
 
-    # Step 4: Generate embeddings
+    # 3. Generate embeddings
     embedder = MultilingualEmbedder()
     embeddings = embedder.embed_chunks(chunks)
 
-    print(f"Total embeddings: {len(embeddings)}")
-
-    # Step 5: Store embeddings in ChromaDB
+    # 4. Store chunks and vectors
     vector_store = VectorStore()
+    vector_store.add_chunks(chunks, embeddings)
 
-    vector_store.add_chunks(
-        chunks=chunks,
-        embeddings=embeddings,
+    print(f"Chunks in database: {vector_store.count()}")
+
+    # 5. Hybrid retrieval
+    retriever = HybridRetriever(
+        vector_store=vector_store,
+        embedder=embedder,
     )
 
-    print(f"Chunks stored in database: {vector_store.count()}")
-    print("Vector database setup completed successfully.")
+    query = "How many annual leave days do employees receive?"
+    candidates = retriever.search(query, top_k=5)
+
+    print("\nHybrid retrieval results:")
+
+    for rank, result in enumerate(candidates, start=1):
+        print(f"\nResult {rank}: {result['text']}")
+        print(f"RRF score: {result['rrf_score']:.6f}")
+
+    # 6. Rerank the retrieved candidates
+    reranker = Reranker()
+    final_results = reranker.rerank(
+        query=query,
+        results=candidates,
+        top_k=3,
+    )
+
+    print("\nReranked results:")
+
+    for rank, result in enumerate(final_results, start=1):
+        print(f"\nResult {rank}: {result['text']}")
+        print(f"Source: {result['metadata']['source']}")
+        print(f"Reranker score: {result['rerank_score']:.4f}")
 
 
 if __name__ == "__main__":
