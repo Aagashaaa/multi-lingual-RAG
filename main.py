@@ -16,7 +16,6 @@ def main():
 
     # 1. Load and clean documents
     documents = load_document(file_path)
-
     cleaned_documents = [
         clean_document(document)
         for document in documents
@@ -24,7 +23,6 @@ def main():
 
     # 2. Split documents into chunks
     chunks = []
-
     for document in cleaned_documents:
         chunks.extend(
             chunk_document(
@@ -43,45 +41,39 @@ def main():
     # 4. Store chunks and vectors
     vector_store = VectorStore()
     vector_store.add_chunks(chunks, embeddings)
-
     print(f"Chunks in database: {vector_store.count()}")
 
-    # 5. Process the query
-    raw_query = (
-        "   How many annual leave days do employees receive?   "
-    )
+    # 5. Ask a question in Tamil
+    raw_query = "ஊழியர்களுக்கு ஆண்டுக்கு எத்தனை நாட்கள் விடுப்பு கிடைக்கும்?"
     query = process_query(raw_query)
+    answer_language = "Tamil"
 
     print(f"\nProcessed query: {query}")
+    print(f"Requested answer language: {answer_language}")
 
-    # 6. Retrieve candidates using hybrid retrieval
+    # 6. Hybrid retrieval
     retriever = HybridRetriever(
         vector_store=vector_store,
         embedder=embedder,
     )
+    candidates = retriever.search(query=query, top_k=5)
 
-    candidates = retriever.search(
-        query=query,
-        top_k=5,
-    )
-
-    # 7. Rerank the retrieved candidates
+    # 7. Reranking
     reranker = Reranker()
-
     final_results = reranker.rerank(
         query=query,
         results=candidates,
         top_k=3,
     )
 
-    # 8. Build the RAG prompt
+    # 8. Build prompt in the requested answer language
     prompt = build_prompt(
         query=query,
         retrieved_chunks=final_results,
-        answer_language="same as the question",
+        answer_language=answer_language,
     )
 
-    # 9. Generate the answer using Groq
+    # 9. Generate answer
     generator = LLMGenerator()
     answer = generator.generate(prompt)
 
