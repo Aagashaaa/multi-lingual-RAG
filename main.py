@@ -11,6 +11,35 @@ from src.generation.prompt_builder import build_prompt
 from src.generation.llm_generator import LLMGenerator
 
 
+def format_citations(results: list[dict]) -> list[str]:
+    """
+    Build citations from retrieved document metadata,
+    rather than asking the LLM to invent source details.
+    """
+    citations = []
+    seen = set()
+
+    for result in results:
+        metadata = result.get("metadata", {})
+
+        source = metadata.get("source")
+        page_number = metadata.get("page_number", 0)
+
+        if not source:
+            continue
+
+        if page_number:
+            citation = f"{source}, page {page_number}"
+        else:
+            citation = source
+
+        if citation not in seen:
+            citations.append(citation)
+            seen.add(citation)
+
+    return citations
+
+
 def main():
     file_path = "data/raw/leave_policy.txt"
 
@@ -41,6 +70,7 @@ def main():
     # 4. Store chunks and vectors
     vector_store = VectorStore()
     vector_store.add_chunks(chunks, embeddings)
+
     print(f"Chunks in database: {vector_store.count()}")
 
     # 5. Ask a question in Tamil
@@ -56,7 +86,10 @@ def main():
         vector_store=vector_store,
         embedder=embedder,
     )
-    candidates = retriever.search(query=query, top_k=5)
+    candidates = retriever.search(
+        query=query,
+        top_k=5,
+    )
 
     # 7. Reranking
     reranker = Reranker()
@@ -66,19 +99,29 @@ def main():
         top_k=3,
     )
 
-    # 8. Build prompt in the requested answer language
+    # 8. Build the prompt
     prompt = build_prompt(
         query=query,
         retrieved_chunks=final_results,
         answer_language=answer_language,
     )
 
-    # 9. Generate answer
+    # 9. Generate the answer
     generator = LLMGenerator()
     answer = generator.generate(prompt)
 
+    # 10. Build citations from actual retrieved metadata
+    citations = format_citations(final_results)
+
     print("\nGenerated answer:\n")
     print(answer)
+
+    print("\nSources:")
+    if citations:
+        for citation in citations:
+            print(f"- {citation}")
+    else:
+        print("- No source metadata available")
 
 
 if __name__ == "__main__":

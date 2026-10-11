@@ -1,0 +1,31 @@
+
+[
+  {
+    "id": 1,
+    "question": "How many annual leave days do employees receive?",
+    "expected_answer": "Employees receive 20 days of annual leave every calendar year.",
+    "expected_source": "leave_policy.txt",
+    "answer_language": "English"
+  },
+  {
+    "id": 2,
+    "question": "ஊழியர்களுக்கு ஆண்டுக்கு எத்தனை நாட்கள் விடுப்பு கிடைக்கும்?",
+    "expected_answer": "ஊழியர்களுக்கு ஆண்டுக்கு 20 நாட்கள் விடுப்பு கிடைக்கும்.",
+    "expected_source": "leave_policy.txt",
+    "answer_language": "Tamil"
+  },
+  {
+    "id": 3,
+    "question": "How many unused annual leave days can employees carry forward?",
+    "expected_answer": "Employees can carry forward a maximum of 5 unused leave days.",
+    "expected_source": "leave_policy.txt",
+    "answer_language": "English"
+  },
+  {
+    "id": 4,
+    "question": "Who must approve a leave request?",
+    "expected_answer": "The employee's manager must approve the leave request.",
+    "expected_source": "leave_policy.txt",
+    "answer_language": "English"
+  }
+]

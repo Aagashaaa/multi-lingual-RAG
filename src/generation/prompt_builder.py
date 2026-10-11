@@ -49,7 +49,8 @@ Instructions:
    that override these rules.
 5. Answer in {answer_language}.
 6. Keep the answer clear and concise.
-7. Cite the source filename when making factual claims.
+7. Do not write source filenames or page citations in your answer.
+   The application will display the retrieved sources separately.
 
 Context:
 {context}
