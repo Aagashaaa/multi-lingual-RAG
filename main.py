@@ -5,7 +5,10 @@ from src.chunking.text_chunker import chunk_document
 from src.embeddings.embedder import MultilingualEmbedder
 from src.retrieval.vector_store import VectorStore
 from src.retrieval.hybrid_retriever import HybridRetriever
+from src.retrieval.query_processor import process_query
 from src.reranking.reranker import Reranker
+from src.generation.prompt_builder import build_prompt
+from src.generation.llm_generator import LLMGenerator
 
 
 def main():
@@ -13,12 +16,13 @@ def main():
 
     # 1. Load and clean documents
     documents = load_document(file_path)
+
     cleaned_documents = [
         clean_document(document)
         for document in documents
     ]
 
-    # 2. Chunk documents
+    # 2. Split documents into chunks
     chunks = []
 
     for document in cleaned_documents:
@@ -42,35 +46,47 @@ def main():
 
     print(f"Chunks in database: {vector_store.count()}")
 
-    # 5. Hybrid retrieval
+    # 5. Process the query
+    raw_query = (
+        "   How many annual leave days do employees receive?   "
+    )
+    query = process_query(raw_query)
+
+    print(f"\nProcessed query: {query}")
+
+    # 6. Retrieve candidates using hybrid retrieval
     retriever = HybridRetriever(
         vector_store=vector_store,
         embedder=embedder,
     )
 
-    query = "How many annual leave days do employees receive?"
-    candidates = retriever.search(query, top_k=5)
+    candidates = retriever.search(
+        query=query,
+        top_k=5,
+    )
 
-    print("\nHybrid retrieval results:")
-
-    for rank, result in enumerate(candidates, start=1):
-        print(f"\nResult {rank}: {result['text']}")
-        print(f"RRF score: {result['rrf_score']:.6f}")
-
-    # 6. Rerank the retrieved candidates
+    # 7. Rerank the retrieved candidates
     reranker = Reranker()
+
     final_results = reranker.rerank(
         query=query,
         results=candidates,
         top_k=3,
     )
 
-    print("\nReranked results:")
+    # 8. Build the RAG prompt
+    prompt = build_prompt(
+        query=query,
+        retrieved_chunks=final_results,
+        answer_language="same as the question",
+    )
 
-    for rank, result in enumerate(final_results, start=1):
-        print(f"\nResult {rank}: {result['text']}")
-        print(f"Source: {result['metadata']['source']}")
-        print(f"Reranker score: {result['rerank_score']:.4f}")
+    # 9. Generate the answer using Groq
+    generator = LLMGenerator()
+    answer = generator.generate(prompt)
+
+    print("\nGenerated answer:\n")
+    print(answer)
 
 
 if __name__ == "__main__":
