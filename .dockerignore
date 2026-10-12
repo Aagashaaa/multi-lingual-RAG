@@ -1,0 +1,12 @@
+```text
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.git/
+.pytest_cache/
+.mypy_cache/
+data/vector_db/
+results/
+notebooks/
+```
