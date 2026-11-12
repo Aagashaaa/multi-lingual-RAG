@@ -1,3 +1,4 @@
+
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -16,7 +17,6 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
 COPY src/ ./src/
 COPY data/raw/ ./data/raw/
 COPY data/evaluation/ ./data/evaluation/
-COPY main.py .
 COPY README.md .
 
 RUN mkdir -p data/vector_db

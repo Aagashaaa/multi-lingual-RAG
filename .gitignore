@@ -25,6 +25,7 @@ Thumbs.db
 # Data
 data/raw/*
 data/processed/*
+data/vector_db/
 
 # Model/cache files
 *.bin
