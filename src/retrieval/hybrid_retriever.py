@@ -128,6 +128,7 @@ class HybridRetriever:
 
             results.append(
                 {
+                    "id": chunk_id,
                     "text": item["text"],
                     "metadata": item["metadata"],
                     "rrf_score": fused_scores[chunk_id],

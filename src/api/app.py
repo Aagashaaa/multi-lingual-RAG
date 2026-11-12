@@ -1,4 +1,7 @@
 
+import logging
+import time
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
@@ -9,6 +12,15 @@ from src.retrieval.query_processor import process_query
 from src.reranking.reranker import Reranker
 from src.generation.prompt_builder import build_prompt
 from src.generation.llm_generator import LLMGenerator
+
+
+# Configure application logging.
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+)
+
+logger = logging.getLogger(__name__)
 
 
 app = FastAPI(
@@ -29,13 +41,15 @@ class AnswerResponse(BaseModel):
     sources: list[str]
 
 
-# Initialize the RAG components once and reuse them across requests.
+# Initialize RAG components once and reuse them.
 vector_store = VectorStore()
 embedder = MultilingualEmbedder()
+
 retriever = HybridRetriever(
     vector_store=vector_store,
     embedder=embedder,
 )
+
 reranker = Reranker()
 generator = LLMGenerator()
 
@@ -75,53 +89,106 @@ def home():
 
 @app.post("/ask", response_model=AnswerResponse)
 def ask_question(request: QuestionRequest):
+
+    total_start = time.perf_counter()
+
+    logger.info("Received a RAG request.")
+
     try:
         query = process_query(request.question)
     except (TypeError, ValueError) as error:
+        logger.warning("Invalid query received: %s", error)
+
         raise HTTPException(
             status_code=400,
             detail=str(error),
         ) from error
 
     if vector_store.count() == 0:
+        logger.error("Vector database is empty.")
+
         raise HTTPException(
             status_code=503,
             detail="The vector database is empty. Index documents first.",
         )
 
-    # 1. Retrieve relevant chunks
-    candidates = retriever.search(
-        query=query,
-        top_k=5,
-    )
+    try:
+        # 1. Retrieve relevant chunks
+        retrieval_start = time.perf_counter()
 
-    if not candidates:
-        raise HTTPException(
-            status_code=404,
-            detail="No relevant document chunks were retrieved.",
+        candidates = retriever.search(
+            query=query,
+            top_k=5,
         )
 
-    # 2. Rerank the retrieved chunks
-    final_results = reranker.rerank(
-        query=query,
-        results=candidates,
-        top_k=3,
-    )
+        retrieval_time = time.perf_counter() - retrieval_start
 
-    # 3. Build the prompt and generate the answer
-    prompt = build_prompt(
-        query=query,
-        retrieved_chunks=final_results,
-        answer_language=request.answer_language,
-    )
+        logger.info(
+            "Retrieval completed in %.3f seconds. Candidates: %d",
+            retrieval_time,
+            len(candidates),
+        )
 
-    answer = generator.generate(prompt)
+        if not candidates:
+            raise HTTPException(
+                status_code=404,
+                detail="No relevant document chunks were retrieved.",
+            )
 
-    # 4. Format source citations from retrieved metadata
-    sources = format_citations(final_results)
+        # 2. Rerank retrieved chunks
+        reranking_start = time.perf_counter()
 
-    return AnswerResponse(
-        question=query,
-        answer=answer,
-        sources=sources,
-    )
+        final_results = reranker.rerank(
+            query=query,
+            results=candidates,
+            top_k=3,
+        )
+
+        reranking_time = time.perf_counter() - reranking_start
+
+        logger.info(
+            "Reranking completed in %.3f seconds. Results: %d",
+            reranking_time,
+            len(final_results),
+        )
+
+        # 3. Build prompt and generate answer
+        prompt = build_prompt(
+            query=query,
+            retrieved_chunks=final_results,
+            answer_language=request.answer_language,
+        )
+
+        generation_start = time.perf_counter()
+
+        answer = generator.generate(prompt)
+
+        generation_time = time.perf_counter() - generation_start
+
+        logger.info(
+            "LLM generation completed in %.3f seconds.",
+            generation_time,
+        )
+
+        # 4. Format citations
+        sources = format_citations(final_results)
+
+        total_time = time.perf_counter() - total_start
+
+        logger.info(
+            "RAG request completed successfully in %.3f seconds.",
+            total_time,
+        )
+
+        return AnswerResponse(
+            question=query,
+            answer=answer,
+            sources=sources,
+        )
+
+    except HTTPException:
+        raise
+
+    except Exception:
+        logger.exception("Unexpected error during RAG request.")
+        raise

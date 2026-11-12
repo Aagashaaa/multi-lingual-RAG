@@ -1,35 +1,107 @@
 
 [
-  {
-    "id": 1,
-    "question": "How many annual leave days do employees receive?",
-    "expected_answer": "Employees receive 20 days of annual leave every calendar year.",
-    "expected_source": "leave_policy.txt",
-    "answer_language": "English",
-    "expected_keywords": ["20", "days"]
-  },
-  {
-    "id": 2,
-    "question": "ஊழியர்களுக்கு ஆண்டுக்கு எத்தனை நாட்கள் விடுப்பு கிடைக்கும்?",
-    "expected_answer": "ஊழியர்களுக்கு ஆண்டுக்கு 20 நாட்கள் விடுப்பு கிடைக்கும்.",
-    "expected_source": "leave_policy.txt",
-    "answer_language": "Tamil",
-    "expected_keywords": ["20", "நாட்கள்"]
-  },
-  {
-    "id": 3,
-    "question": "How many unused annual leave days can employees carry forward?",
-    "expected_answer": "Employees can carry forward a maximum of 5 unused leave days.",
-    "expected_source": "leave_policy.txt",
-    "answer_language": "English",
-    "expected_keywords": ["5", "days"]
-  },
-  {
-    "id": 4,
-    "question": "Who must approve a leave request?",
-    "expected_answer": "The employee's manager must approve the leave request.",
-    "expected_source": "leave_policy.txt",
-    "answer_language": "English",
-    "expected_keywords": ["manager", "approve"]
-  }
+    {
+        "id": 1,
+        "question": "How many annual leave days does an employee receive each year?",
+        "expected_answer": "Employees receive 20 days of annual leave each calendar year.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "20",
+            "annual leave",
+            "calendar year"
+        ]
+    },
+    {
+        "id": 2,
+        "question": "Can employees carry forward unused annual leave? If yes, how many days?",
+        "expected_answer": "Employees can carry forward a maximum of 5 unused annual leave days.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "5",
+            "carry forward",
+            "unused annual leave"
+        ]
+    },
+    {
+        "id": 3,
+        "question": "Who is responsible for approving an employee's leave request?",
+        "expected_answer": "Managers must approve leave requests.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "manager",
+            "approve"
+        ]
+    },
+    {
+        "id": 4,
+        "question": "Which system should employees use to request leave?",
+        "expected_answer": "Employees should use the company leave management system to request leave.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "leave management system",
+            "request leave"
+        ]
+    },
+    {
+        "id": 5,
+        "question": "Is an employee allowed to carry forward 6 unused annual leave days?",
+        "expected_answer": "No. Employees can carry forward a maximum of 5 unused annual leave days.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "5",
+            "maximum",
+            "carry forward"
+        ]
+    },
+    {
+        "id": 6,
+        "question": "Are employees entitled to 20 days of annual leave per calendar year?",
+        "expected_answer": "Yes. Employees receive 20 days of annual leave each calendar year.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "20",
+            "annual leave",
+            "calendar year"
+        ]
+    },
+    {
+        "id": 7,
+        "question": "How many sick leave days do employees receive annually?",
+        "expected_answer": "The provided documents do not contain information about sick leave days.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "not contain information",
+            "sick leave"
+        ]
+    },
+    {
+        "id": 8,
+        "question": "What is the company's work-from-home policy?",
+        "expected_answer": "The provided documents do not contain information about the company's work-from-home policy.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "not contain information",
+            "work-from-home"
+        ]
+    },
+    {
+        "id": 9,
+        "question": "How many days of maternity leave are provided to employees?",
+        "expected_answer": "The provided documents do not contain information about maternity leave.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "not contain information",
+            "maternity leave"
+        ]
+    },
+    {
+        "id": 10,
+        "question": "How many days of paternity leave can employees take?",
+        "expected_answer": "The provided documents do not contain information about paternity leave.",
+        "answer_language": "English",
+        "expected_keywords": [
+            "not contain information",
+            "paternity leave"
+        ]
+    }
 ]

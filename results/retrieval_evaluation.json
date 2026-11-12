@@ -1,0 +1,145 @@
+{
+    "evaluation_type": "Hybrid Retrieval Evaluation",
+    "top_k": 3,
+    "total_questions": 5,
+    "individual_results": [
+        {
+            "question_id": 1,
+            "question": "How many annual leave days do employees receive?",
+            "answer_language": "English",
+            "relevant_chunk_ids": [
+                "leave_policy.txt_0_0_0"
+            ],
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_2_2"
+            ],
+            "retrieved_sources": [
+                "leave_policy.txt",
+                "leave_policy.txt",
+                "leave_policy.txt"
+            ],
+            "metrics": {
+                "hit_rate": 1,
+                "precision": 0.3333333333333333,
+                "recall": 1.0,
+                "mrr": 1.0,
+                "ndcg": 1.0,
+                "source_hit_rate": 1
+            }
+        },
+        {
+            "question_id": 2,
+            "question": "ஊழியர்களுக்கு ஆண்டுக்கு எத்தனை நாட்கள் விடுப்பு கிடைக்கும்?",
+            "answer_language": "Tamil",
+            "relevant_chunk_ids": [
+                "leave_policy.txt_0_0_0"
+            ],
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_2_2"
+            ],
+            "retrieved_sources": [
+                "leave_policy.txt",
+                "leave_policy.txt",
+                "leave_policy.txt"
+            ],
+            "metrics": {
+                "hit_rate": 1,
+                "precision": 0.3333333333333333,
+                "recall": 1.0,
+                "mrr": 1.0,
+                "ndcg": 1.0,
+                "source_hit_rate": 1
+            }
+        },
+        {
+            "question_id": 3,
+            "question": "How many unused annual leave days can employees carry forward?",
+            "answer_language": "English",
+            "relevant_chunk_ids": [
+                "leave_policy.txt_0_1_1"
+            ],
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_2_2"
+            ],
+            "retrieved_sources": [
+                "leave_policy.txt",
+                "leave_policy.txt",
+                "leave_policy.txt"
+            ],
+            "metrics": {
+                "hit_rate": 1,
+                "precision": 0.3333333333333333,
+                "recall": 1.0,
+                "mrr": 1.0,
+                "ndcg": 1.0,
+                "source_hit_rate": 1
+            }
+        },
+        {
+            "question_id": 4,
+            "question": "Who must approve a leave request?",
+            "answer_language": "English",
+            "relevant_chunk_ids": [
+                "leave_policy.txt_0_3_3"
+            ],
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_2_2",
+                "leave_policy.txt_0_3_3",
+                "leave_policy.txt_0_1_1"
+            ],
+            "retrieved_sources": [
+                "leave_policy.txt",
+                "leave_policy.txt",
+                "leave_policy.txt"
+            ],
+            "metrics": {
+                "hit_rate": 1,
+                "precision": 0.3333333333333333,
+                "recall": 1.0,
+                "mrr": 0.5,
+                "ndcg": 0.6309297535714575,
+                "source_hit_rate": 1
+            }
+        },
+        {
+            "question_id": 5,
+            "question": "Which system should employees use to request leave?",
+            "answer_language": "English",
+            "relevant_chunk_ids": [
+                "leave_policy.txt_0_2_2"
+            ],
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_2_2",
+                "leave_policy.txt_0_3_3",
+                "leave_policy.txt_0_1_1"
+            ],
+            "retrieved_sources": [
+                "leave_policy.txt",
+                "leave_policy.txt",
+                "leave_policy.txt"
+            ],
+            "metrics": {
+                "hit_rate": 1,
+                "precision": 0.3333333333333333,
+                "recall": 1.0,
+                "mrr": 1.0,
+                "ndcg": 1.0,
+                "source_hit_rate": 1
+            }
+        }
+    ],
+    "average_metrics": {
+        "hit_rate": 1.0,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "mrr": 0.9,
+        "ndcg": 0.9261859507142916,
+        "source_hit_rate": 1.0
+    }
+}

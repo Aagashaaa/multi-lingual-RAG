@@ -1,0 +1,212 @@
+{
+    "evaluation_type": "RAG Generation Evaluation",
+    "retrieval_top_k": 5,
+    "rerank_top_k": 3,
+    "total_questions": 10,
+    "individual_results": [
+        {
+            "question_id": 1,
+            "question": "How many annual leave days does an employee receive each year?",
+            "answer_language": "English",
+            "expected_answer": "Employees receive 20 days of annual leave each calendar year.",
+            "generated_answer": "Employees receive 20 days of annual leave each calendar year.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_2_2"
+            ],
+            "keyword_coverage": 1.0,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer matches the expected answer exactly, is fully supported by the retrieved context, and directly addresses the question without any extraneous information.",
+            "passed": true
+        },
+        {
+            "question_id": 2,
+            "question": "Can employees carry forward unused annual leave? If yes, how many days?",
+            "answer_language": "English",
+            "expected_answer": "Employees can carry forward a maximum of 5 unused annual leave days.",
+            "generated_answer": "Yes. Employees may carry forward up to **5 unused leave days** to the following year.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_2_2"
+            ],
+            "keyword_coverage": 0.6666666666666666,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer correctly states that employees can carry forward up to 5 unused leave days, which matches the expected answer. This claim is directly supported by the retrieved context, and the answer is concise and directly addresses the question without unnecessary information.",
+            "passed": true
+        },
+        {
+            "question_id": 3,
+            "question": "Who is responsible for approving an employee's leave request?",
+            "answer_language": "English",
+            "expected_answer": "Managers must approve leave requests.",
+            "generated_answer": "Managers are responsible for approving an employee's leave request.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_3_3",
+                "leave_policy.txt_0_2_2",
+                "leave_policy.txt_0_1_1"
+            ],
+            "keyword_coverage": 0.5,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer correctly states that managers are responsible for approving leave requests, matching the expected answer. The claim is directly supported by the retrieved context, and the answer is concise and directly addresses the question.",
+            "passed": true
+        },
+        {
+            "question_id": 4,
+            "question": "Which system should employees use to request leave?",
+            "answer_language": "English",
+            "expected_answer": "Employees should use the company leave management system to request leave.",
+            "generated_answer": "Employees should use the company leave management system to request leave.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_2_2",
+                "leave_policy.txt_0_3_3",
+                "leave_policy.txt_0_1_1"
+            ],
+            "keyword_coverage": 1.0,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer exactly matches the expected answer, is fully supported by the retrieved context, and directly addresses the question without extraneous information.",
+            "passed": true
+        },
+        {
+            "question_id": 5,
+            "question": "Is an employee allowed to carry forward 6 unused annual leave days?",
+            "answer_language": "English",
+            "expected_answer": "No. Employees can carry forward a maximum of 5 unused annual leave days.",
+            "generated_answer": "No. The policy allows a maximum of 5 unused leave days to be carried forward to the next year.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_2_2"
+            ],
+            "keyword_coverage": 0.6666666666666666,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer correctly states that employees cannot carry forward 6 days and that the maximum is 5 days, matching the expected answer. The claim is directly supported by the retrieved context, and the answer is concise and directly addresses the question.",
+            "passed": true
+        },
+        {
+            "question_id": 6,
+            "question": "Are employees entitled to 20 days of annual leave per calendar year?",
+            "answer_language": "English",
+            "expected_answer": "Yes. Employees receive 20 days of annual leave each calendar year.",
+            "generated_answer": "Yes, employees are entitled to 20 days of annual leave per calendar year.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_2_2"
+            ],
+            "keyword_coverage": 1.0,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer correctly states that employees are entitled to 20 days of annual leave per calendar year, which matches the expected answer. The claim is supported by the retrieved context, which explicitly states the same. The answer directly addresses the question without adding irrelevant information.",
+            "passed": true
+        },
+        {
+            "question_id": 7,
+            "question": "How many sick leave days do employees receive annually?",
+            "answer_language": "English",
+            "expected_answer": "The provided documents do not contain information about sick leave days.",
+            "generated_answer": "The provided documents do not contain information about sick leave days.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_2_2"
+            ],
+            "keyword_coverage": 1.0,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer matches the expected answer, accurately reflects the absence of sick leave information in the retrieved context, and directly addresses the question.",
+            "passed": true
+        },
+        {
+            "question_id": 8,
+            "question": "What is the company's work-from-home policy?",
+            "answer_language": "English",
+            "expected_answer": "The provided documents do not contain information about the company's work-from-home policy.",
+            "generated_answer": "The information about a work‑from‑home policy was not found in the provided documents.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_2_2",
+                "leave_policy.txt_0_3_3"
+            ],
+            "keyword_coverage": 0.0,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer correctly states that the work‑from‑home policy is not found in the provided documents, matching the expected answer. It is fully supported by the retrieved context, which contains no mention of such a policy, and it directly addresses the question without extraneous information.",
+            "passed": true
+        },
+        {
+            "question_id": 9,
+            "question": "How many days of maternity leave are provided to employees?",
+            "answer_language": "English",
+            "expected_answer": "The provided documents do not contain information about maternity leave.",
+            "generated_answer": "The provided documents do not contain information about maternity leave.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_2_2"
+            ],
+            "keyword_coverage": 1.0,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer matches the expected answer, accurately reflects the absence of maternity leave information in the retrieved context, and directly addresses the question without extraneous content.",
+            "passed": true
+        },
+        {
+            "question_id": 10,
+            "question": "How many days of paternity leave can employees take?",
+            "answer_language": "English",
+            "expected_answer": "The provided documents do not contain information about paternity leave.",
+            "generated_answer": "The provided documents do not contain information about paternity leave.",
+            "retrieved_chunk_ids": [
+                "leave_policy.txt_0_0_0",
+                "leave_policy.txt_0_1_1",
+                "leave_policy.txt_0_2_2"
+            ],
+            "keyword_coverage": 1.0,
+            "correctness": 5,
+            "faithfulness": 5,
+            "relevance": 5,
+            "language_compliance": true,
+            "judge_reason": "The generated answer matches the expected answer, is fully supported by the retrieved context (no mention of paternity leave), and directly addresses the question without extraneous information.",
+            "passed": true
+        }
+    ],
+    "average_metrics": {
+        "keyword_coverage": 0.7833333333333333,
+        "correctness": 5.0,
+        "faithfulness": 5.0,
+        "relevance": 5.0,
+        "language_compliance": 1.0,
+        "overall_pass_rate": 1.0
+    },
+    "pass_criteria": {
+        "correctness_minimum": 4,
+        "faithfulness_minimum": 4,
+        "relevance_minimum": 4,
+        "language_compliance_required": true
+    }
+}
